@@ -31,13 +31,18 @@ public class JwtUtil {
                 .compact();
     }
 
+    public long getExpiration() {
+        return expiration;
+    }
+
     public String extractUsername(String token) {
         return parseClaims(token).getSubject();
     }
 
     public boolean isTokenValid(String token) {
         try {
-            return parseClaims(token).getExpiration().after(new Date());
+            parseClaims(token);
+            return true;
         } catch (Exception e) {
             return false;
         }

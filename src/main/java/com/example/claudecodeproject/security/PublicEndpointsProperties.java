@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 @ConfigurationProperties(prefix = "security")
-public class SecurityProperties {
+public class PublicEndpointsProperties {
 
     private List<String> publicEndpoints = List.of();
 
