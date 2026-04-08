@@ -43,6 +43,10 @@ com.example.claudecodeproject
 ├── service/                            # Regras de negócio
 ├── repository/                         # Interfaces JPA
 ├── model/                              # Entidades JPA
+│   ├── Category.java                   # Categoria do produto (id, name, description)
+│   ├── Price.java                      # Preço do produto (id, salePrice, listPrice)
+│   ├── MediaSet.java                   # Imagens do produto (id, thumbnail, medium, large)
+│   └── Product.java                    # Produto principal (relaciona Category, Price, MediaSet)
 ├── dto/                                # Objetos de transferência (padrão Request/Response)
 ├── security/                           # JWT, filtros e configuração do Spring Security
 │   ├── SecurityConfig.java             # Regras de segurança, beans de usuário e PasswordEncoder
@@ -76,6 +80,27 @@ Controlado pela variável de ambiente `APP_ENV` (padrão: `dev`).
 - Todos os demais endpoints exigem header `Authorization: Bearer <token>`
 - Expiração padrão do token: `3600000ms` (1 hora), configurável via `jwt.expiration` em `application.properties`
 - Credencial padrão (in-memory, provisória): `api` / `api123` — substituir por autenticação via banco futuramente
+
+## Modelos
+
+| Entidade  | Tabela     | Relacionamentos                                      |
+|-----------|------------|------------------------------------------------------|
+| Product   | `product`  | `@ManyToOne` Category, `@OneToOne` Price e MediaSet  |
+| Category  | `category` | —                                                    |
+| Price     | `price`    | —                                                    |
+| MediaSet  | `media_set`| —                                                    |
+
+- Todos os modelos possuem `createdAt` e `modifiedAt` populados automaticamente pelo Hibernate
+- Preços (`salePrice`, `listPrice`) em `BigDecimal` com `precision=10, scale=2`
+- Campo `description` do produto como `LONGTEXT` (suporta rich text, HTML, etc.)
+
+## Hibernate — boas práticas
+
+- Todos os relacionamentos usam `FetchType.LAZY` por padrão — nunca alterar para EAGER sem motivo
+- Usar `JOIN FETCH` no JPQL ao carregar entidades relacionadas (evita N+1)
+- Usar projeções DTO (`SELECT new ...`) em listagens — nunca buscar `LONGTEXT` em queries de listagem
+- Usar `@NativeQuery` em queries críticas onde o Hibernate gerar SQL desnecessariamente complexo
+- Verificar o SQL gerado via `show-sql=true` (ativo no perfil `dev`) ao escrever novas queries
 
 ## Endpoints
 
