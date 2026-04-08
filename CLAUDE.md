@@ -10,6 +10,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - MySQL 8.0 (database: `ccproject`, porta `3306`)
 - Spring Data JPA + Hibernate
 - Spring Validation
+- SpringDoc OpenAPI 2.5.0 (Swagger UI)
+- Spring Boot DevTools (hot reload)
 
 ## Commands
 
@@ -50,7 +52,9 @@ Conexão configurada em `src/main/resources/application.properties`:
 
 ## Endpoints
 
-| Método | Path      | Descrição              |
-|--------|-----------|------------------------|
-| GET    | `/`       | Health check da API    |
-| GET    | `/health` | Health check da API    |
+| Método | Path        | Descrição                        |
+|--------|-------------|----------------------------------|
+| GET    | `/`         | Health check da API              |
+| GET    | `/health`   | Health check da API              |
+| GET    | `/swagger`  | Interface Swagger UI no browser  |
+| GET    | `/api-docs` | JSON da especificação OpenAPI    |
