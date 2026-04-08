@@ -81,4 +81,4 @@ Controlado pela variável de ambiente `APP_ENV` (padrão: `dev`).
 | GET    | `/`         | Não  | Health check da API             |
 | GET    | `/health`   | Não  | Health check da API             |
 | GET    | `/swagger`  | Não  | Interface Swagger UI no browser |
-| GET    | `/api-docs` | Sim  | JSON da especificação OpenAPI   |
+| GET    | `/api-docs` | Não  | JSON da especificação OpenAPI   |
