@@ -45,6 +45,10 @@ com.example.claudecodeproject
 ├── model/                              # Entidades JPA
 ├── dto/                                # Objetos de transferência (padrão Request/Response)
 ├── security/                           # JWT, filtros e configuração do Spring Security
+│   ├── SecurityConfig.java             # Regras de segurança, beans de usuário e PasswordEncoder
+│   ├── PublicEndpointsProperties.java  # Lê a lista de endpoints públicos do security.properties
+│   ├── JwtUtil.java                    # Geração e validação de tokens JWT
+│   └── JwtAuthFilter.java             # Filtro que autentica cada requisição via token
 └── exception/                          # Exceções customizadas
 ```
 
@@ -68,10 +72,10 @@ Controlado pela variável de ambiente `APP_ENV` (padrão: `dev`).
 ## Segurança
 
 - Autenticação via JWT — token obtido em `POST /auth`
-- Endpoints públicos configurados em `src/main/resources/security.properties`
+- Endpoints públicos configurados em `src/main/resources/security.properties` — adicione um por linha sem alterar o código
 - Todos os demais endpoints exigem header `Authorization: Bearer <token>`
-- Expiração padrão do token: `3600000ms` (1 hora), configurável via `jwt.expiration`
-- Credencial padrão (in-memory): `api` / `api123`
+- Expiração padrão do token: `3600000ms` (1 hora), configurável via `jwt.expiration` em `application.properties`
+- Credencial padrão (in-memory, provisória): `api` / `api123` — substituir por autenticação via banco futuramente
 
 ## Endpoints
 
