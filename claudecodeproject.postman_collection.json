@@ -66,6 +66,319 @@
           }
         }
       ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "GET /categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories?page=1&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /categories/:id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/categories/1"
+          }
+        },
+        {
+          "name": "POST /categories",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Eletrônicos\",\n  \"description\": \"Produtos eletrônicos em geral\"\n}"
+            },
+            "url": "{{baseUrl}}/categories"
+          }
+        },
+        {
+          "name": "PUT /categories/:id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Eletrônicos\",\n  \"description\": \"Descrição atualizada\"\n}"
+            },
+            "url": "{{baseUrl}}/categories/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prices",
+      "item": [
+        {
+          "name": "GET /prices/:id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/prices/1"
+          }
+        },
+        {
+          "name": "GET /prices/product/:productId",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/prices/product/1"
+          }
+        },
+        {
+          "name": "PUT /prices/:id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"salePrice\": 89.90,\n  \"listPrice\": 119.90\n}"
+            },
+            "url": "{{baseUrl}}/prices/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Media Sets",
+      "item": [
+        {
+          "name": "GET /media-sets",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/media-sets?page=1&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["media-sets"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /media-sets/:id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/media-sets/1"
+          }
+        },
+        {
+          "name": "POST /media-sets",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"thumbnail\": \"https://example.com/thumb.jpg\",\n  \"medium\": \"https://example.com/medium.jpg\",\n  \"large\": \"https://example.com/large.jpg\"\n}"
+            },
+            "url": "{{baseUrl}}/media-sets"
+          }
+        },
+        {
+          "name": "PUT /media-sets/:id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"thumbnail\": \"https://example.com/thumb-v2.jpg\",\n  \"medium\": \"https://example.com/medium-v2.jpg\",\n  \"large\": \"https://example.com/large-v2.jpg\"\n}"
+            },
+            "url": "{{baseUrl}}/media-sets/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "GET /products",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/products?page=1&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /products/:id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/products/1"
+          }
+        },
+        {
+          "name": "POST /products",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Smartphone XYZ\",\n  \"description\": \"<p>Descrição completa do produto</p>\",\n  \"categoryId\": 1,\n  \"price\": {\n    \"salePrice\": 1999.90,\n    \"listPrice\": 2499.90\n  },\n  \"mediaSet\": {\n    \"thumbnail\": \"https://example.com/thumb.jpg\",\n    \"medium\": \"https://example.com/medium.jpg\",\n    \"large\": \"https://example.com/large.jpg\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/products"
+          }
+        },
+        {
+          "name": "PUT /products/:id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Smartphone XYZ Pro\",\n  \"description\": \"<p>Descrição atualizada do produto</p>\",\n  \"categoryId\": 1,\n  \"price\": {\n    \"salePrice\": 1799.90,\n    \"listPrice\": 2299.90\n  },\n  \"mediaSet\": {\n    \"thumbnail\": \"https://example.com/thumb-v2.jpg\",\n    \"medium\": \"https://example.com/medium-v2.jpg\",\n    \"large\": \"https://example.com/large-v2.jpg\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/products/1"
+          }
+        }
+      ]
+    }
+  ,
+    {
+      "name": "Massa de Testes",
+      "item": [
+        {
+          "name": "Criar 30 produtos",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const baseUrl = pm.collectionVariables.get('baseUrl');",
+                  "const token = pm.collectionVariables.get('token');",
+                  "",
+                  "function postJson(path, body, callback) {",
+                  "    pm.sendRequest({",
+                  "        url: baseUrl + path,",
+                  "        method: 'POST',",
+                  "        header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "        body: { mode: 'raw', raw: JSON.stringify(body) }",
+                  "    }, callback);",
+                  "}",
+                  "",
+                  "const categoryNames = ['Categoria Teste 1', 'Categoria Teste 2', 'Categoria Teste 3'];",
+                  "const categoryIds = [];",
+                  "",
+                  "function createCategories(index, done) {",
+                  "    if (index >= categoryNames.length) { done(); return; }",
+                  "    postJson('/categories', { name: categoryNames[index], description: 'Categoria gerada para massa de teste' }, function(err, res) {",
+                  "        if (!err && res.code === 201) {",
+                  "            categoryIds.push(res.json().id);",
+                  "            console.log('Criada: ' + categoryNames[index] + ' (id=' + res.json().id + ')');",
+                  "        }",
+                  "        createCategories(index + 1, done);",
+                  "    });",
+                  "}",
+                  "",
+                  "function createProducts() {",
+                  "    for (let i = 1; i <= 30; i++) {",
+                  "        const listPrice = parseFloat((Math.random() * 1900 + 100).toFixed(2));",
+                  "        const salePrice = parseFloat((listPrice * (Math.random() * 0.4 + 0.6)).toFixed(2));",
+                  "        const categoryId = categoryIds[i % categoryIds.length];",
+                  "",
+                  "        postJson('/products', {",
+                  "            name: 'Produto Teste ' + i,",
+                  "            description: '<p>Produto gerado automaticamente para massa de teste.</p>',",
+                  "            categoryId: categoryId,",
+                  "            price: { salePrice: salePrice, listPrice: listPrice },",
+                  "            mediaSet: {",
+                  "                thumbnail: 'https://example.com/teste-' + i + '-thumb.jpg',",
+                  "                medium: 'https://example.com/teste-' + i + '-medium.jpg',",
+                  "                large: 'https://example.com/teste-' + i + '-large.jpg'",
+                  "            }",
+                  "        }, function(err, res) {",
+                  "            console.log('Produto Teste ' + i + ': ' + (err ? 'ERRO - ' + err : res.code));",
+                  "        });",
+                  "    }",
+                  "}",
+                  "",
+                  "createCategories(0, createProducts);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "description": "O script de pré-requisição cria 3 categorias teste e 30 produtos em sequência. Esta requisição lista os resultados após a criação.\n\n**SQL para deletar toda a massa de teste (rodar no DBeaver com ccproject selecionado):**\n```sql\nDELETE p, pr, ms\nFROM product p\nLEFT JOIN price pr ON pr.id = p.price_id\nLEFT JOIN media_set ms ON ms.id = p.media_set_id\nWHERE p.name LIKE 'Produto Teste %';\n\nDELETE FROM category WHERE name LIKE 'Categoria Teste %';\n```",
+            "url": {
+              "raw": "{{baseUrl}}/products?page=1&size=30",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "30" }
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }

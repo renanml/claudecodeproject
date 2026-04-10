@@ -39,16 +39,35 @@ mvn test -Dtest=NomeDaClasseTest
 ```
 com.example.claudecodeproject
 ├── ClaudeCodeProjectApplication.java   # Entry point
-├── controller/                         # REST controllers
-├── service/                            # Regras de negócio
-├── repository/                         # Interfaces JPA
-├── model/                              # Entidades JPA
-│   ├── Category.java                   # Categoria do produto (id, name, description)
-│   ├── Price.java                      # Preço do produto (id, salePrice, listPrice)
-│   ├── MediaSet.java                   # Imagens do produto (id, thumbnail, medium, large)
-│   └── Product.java                    # Produto principal (relaciona Category, Price, MediaSet)
-├── dto/                                # Objetos de transferência (padrão Request/Response)
-├── security/                           # JWT, filtros e configuração do Spring Security
+├── controller/
+│   ├── AuthController.java             # POST /auth
+│   ├── HealthController.java           # GET /, GET /health
+│   ├── CategoryController.java         # CRUD /categories
+│   ├── PriceController.java            # GET e PUT /prices
+│   ├── MediaSetController.java         # CRUD /media-sets
+│   └── ProductController.java          # CRUD /products
+├── service/
+│   ├── CategoryService.java
+│   ├── PriceService.java
+│   ├── MediaSetService.java
+│   └── ProductService.java
+├── repository/
+│   ├── CategoryRepository.java
+│   ├── PriceRepository.java            # findByIdFetched, findByProductId
+│   ├── MediaSetRepository.java
+│   └── ProductRepository.java          # findAllProjected, findByIdFetched
+├── model/
+│   ├── Category.java                   # id, name, description
+│   ├── Price.java                      # id, product(inverso), salePrice, listPrice
+│   ├── MediaSet.java                   # id, thumbnail, medium, large
+│   └── Product.java                    # id, category, price, mediaSet, name, description
+├── dto/
+│   ├── AuthRequest.java / AuthResponse.java
+│   ├── CategoryRequest.java / CategoryResponse.java
+│   ├── PriceRequest.java / PriceResponse.java
+│   ├── MediaSetRequest.java / MediaSetResponse.java
+│   └── ProductRequest.java / ProductResponse.java / ProductListResponse.java
+├── security/
 │   ├── SecurityConfig.java             # Regras de segurança, beans de usuário e PasswordEncoder
 │   ├── PublicEndpointsProperties.java  # Lê a lista de endpoints públicos do security.properties
 │   ├── JwtUtil.java                    # Geração e validação de tokens JWT
@@ -83,16 +102,28 @@ Controlado pela variável de ambiente `APP_ENV` (padrão: `dev`).
 
 ## Modelos
 
-| Entidade  | Tabela     | Relacionamentos                                      |
-|-----------|------------|------------------------------------------------------|
-| Product   | `product`  | `@ManyToOne` Category, `@OneToOne` Price e MediaSet  |
-| Category  | `category` | —                                                    |
-| Price     | `price`    | —                                                    |
-| MediaSet  | `media_set`| —                                                    |
+| Entidade  | Tabela      | Relacionamentos                                                        |
+|-----------|-------------|------------------------------------------------------------------------|
+| Product   | `product`   | `@ManyToOne` Category, `@OneToOne` Price (dono), `@OneToOne` MediaSet |
+| Category  | `category`  | —                                                                      |
+| Price     | `price`     | `@OneToOne(mappedBy="price")` Product (inverso, `@JsonIgnore`)         |
+| MediaSet  | `media_set` | —                                                                      |
 
 - Todos os modelos possuem `createdAt` e `modifiedAt` populados automaticamente pelo Hibernate
 - Preços (`salePrice`, `listPrice`) em `BigDecimal` com `precision=10, scale=2`
 - Campo `description` do produto como `LONGTEXT` (suporta rich text, HTML, etc.)
+- `Price` é sempre criado junto com o `Product` — não existe endpoint de criação avulsa de preço
+- Relacionamento `Product → Price`: cascade ALL + orphanRemoval. FK `price_id` fica na tabela `product`
+
+## Paginação
+
+- Todos os endpoints de listagem aceitam `page` (default `1`) e `size` (default `10`)
+- A paginação é **1-based** na API — `page=1` retorna a primeira página
+- Resposta envolve os dados em `PageResponse<T>` com os campos:
+  - `content` — lista de itens da página
+  - `page` — página atual (começa em 1)
+  - `totalPages` — total de páginas
+  - `totalItems` — total de registros
 
 ## Hibernate — boas práticas
 
@@ -104,10 +135,32 @@ Controlado pela variável de ambiente `APP_ENV` (padrão: `dev`).
 
 ## Endpoints
 
-| Método | Path        | Auth | Descrição                       |
-|--------|-------------|------|---------------------------------|
-| POST   | `/auth`     | Não  | Gera token JWT                  |
-| GET    | `/`         | Não  | Health check da API             |
-| GET    | `/health`   | Não  | Health check da API             |
-| GET    | `/swagger`  | Não  | Interface Swagger UI no browser |
-| GET    | `/api-docs` | Não  | JSON da especificação OpenAPI   |
+### Públicos
+
+| Método | Path        | Descrição                       |
+|--------|-------------|---------------------------------|
+| POST   | `/auth`     | Gera token JWT                  |
+| GET    | `/`         | Health check da API             |
+| GET    | `/health`   | Health check da API             |
+| GET    | `/swagger`  | Interface Swagger UI no browser |
+| GET    | `/api-docs` | JSON da especificação OpenAPI   |
+
+### Autenticados (`Authorization: Bearer <token>`)
+
+| Método | Path                        | Descrição                                      |
+|--------|-----------------------------|------------------------------------------------|
+| GET    | `/categories?page=1&size=10`      | Lista categorias paginada                      |
+| GET    | `/categories/{id}`                | Busca categoria por ID                         |
+| POST   | `/categories`                     | Cria categoria                                 |
+| PUT    | `/categories/{id}`                | Atualiza categoria                             |
+| GET    | `/prices/{id}`                    | Busca preço por ID                             |
+| GET    | `/prices/product/{id}`            | Busca preço pelo ID do produto                 |
+| PUT    | `/prices/{id}`                    | Atualiza preço                                 |
+| GET    | `/media-sets?page=1&size=10`      | Lista media sets paginada                      |
+| GET    | `/media-sets/{id}`                | Busca media set por ID                         |
+| POST   | `/media-sets`                     | Cria media set                                 |
+| PUT    | `/media-sets/{id}`                | Atualiza media set                             |
+| GET    | `/products?page=1&size=10`        | Lista produtos paginada (sem `description`)    |
+| GET    | `/products/{id}`                  | Busca produto completo por ID                  |
+| POST   | `/products`                       | Cria produto (com price e mediaSet inline)     |
+| PUT    | `/products/{id}`                  | Atualiza produto (com price e mediaSet inline) |
