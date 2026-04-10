@@ -2,7 +2,7 @@
 
 ## Pendente
 
-- [ ] Autenticar `gh` CLI (`gh auth login`) e criar PR da `feature1` para `master`
+- [x] Autenticar `gh` CLI (`gh auth login`) e criar PR da `feature1` para `master`
 
 ## Concluído
 
