@@ -14,12 +14,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(columnDefinition = "LONGTEXT")
-    private String description;
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -32,6 +26,12 @@ public class Product {
     @JoinColumn(name = "media_set_id")
     private MediaSet mediaSet;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String description;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -43,12 +43,6 @@ public class Product {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }
 
@@ -57,6 +51,12 @@ public class Product {
 
     public MediaSet getMediaSet() { return mediaSet; }
     public void setMediaSet(MediaSet mediaSet) { this.mediaSet = mediaSet; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 
